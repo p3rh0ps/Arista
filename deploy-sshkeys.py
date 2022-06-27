@@ -14,5 +14,6 @@ HELLLLLLOOOOOTHERECHANGEWITHYOURKEYHEREEEEEEEEEE\
 HELLLLLLOOOOOTHERECHANGEWITHYOURKEYHEREEEEEEEEEE\
 HELLLLLLOOOOOTHERECHANGEWITHYOURKEYHEREEEEEEEEEE user@mydom',
         default=False, disable=False)
-        print(conn.api('users').get('arista'))   # Take a look at the result
-        # print(res_key)                         # Check if you made a change True > YES, False > NO
+        print(conn.api('users').get('arista'))  # Take a look at the result
+        # print(res_key)                        # Check if you made a change True > YES, False > NO
+        host = inv_file.readline().strip('\n')  # Pass to the next line, can also use enumerate for fun !
