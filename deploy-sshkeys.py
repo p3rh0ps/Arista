@@ -15,4 +15,4 @@ HELLLLLLOOOOOTHERECHANGEWITHYOURKEYHEREEEEEEEEEE\
 HELLLLLLOOOOOTHERECHANGEWITHYOURKEYHEREEEEEEEEEE user@mydom',
         default=False, disable=False)
         print(conn.api('users').get('arista'))   # Take a look at the result
-        # print(res_key)                         # Check if you made a change True YES False No
+        # print(res_key)                         # Check if you made a change True > YES, False > NO
