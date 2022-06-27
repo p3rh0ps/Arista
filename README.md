@@ -1,6 +1,6 @@
 # Arista
 
-Arista Samples Automation examples
+Arista Automation Scripts Samples
 
 ########
 
