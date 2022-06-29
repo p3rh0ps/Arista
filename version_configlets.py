@@ -6,7 +6,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 cvp1 = '192.168.0.5'
 cvp_user = 'arista'
-cvp_password = 'arista5jad'
+cvp_password = '*********'
 
 def get_configlets(mac: str) -> list:
     configlets = []
