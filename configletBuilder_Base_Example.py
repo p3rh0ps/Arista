@@ -15,7 +15,20 @@ else:
     user = CVPGlobalVariables.getValue(GlobalVariableNames.CVP_USERNAME)
     passwd = CVPGlobalVariables.getValue(GlobalVariableNames.CVP_PASSWORD)
 
-# print(dir(GlobalVariableNames))
+print(dir(GlobalVariableNames))
+
+print("*"*20+"Field ID"+"*"*20)
+print(Form.getFieldById('NET_NAME').getFieldID())
+print("*"*20+"Help Text"+"*"*20)
+print(Form.getFieldById('NET_NAME').isMandatory())
+print("*"*20+"Help Text"+"*"*20)
+print(Form.getFieldById('NET_NAME').getHelpText())
+print("*"*20+"Depends on"+"*"*20)
+print(Form.getFieldById('NET_NAME').getDependsOn())
+print("*"*20+"Type"+"*"*20)
+print(Form.getFieldById('NET_NAME').getType())
+print("*"*20+"Type"+"*"*20)
+print(Form.getFieldById('NET_NAME').getDataValidation())
 
 NET_NAME = Form.getFieldById('NET_NAME').getValue()
 VLAN_ID = Form.getFieldById('VLAN_ID').getValue()
