@@ -1,0 +1,166 @@
+{
+  "jsonrpc": "2.0",
+  "id": "EapiExplorer-1",
+  "result": [
+    {
+      "header": [
+        "! device: xxxx-xxx (cEOSLab, EOS-4.27.2F-26069621.4272F (engineering build))\n!\n"
+      ],
+      "comments": [],
+      "cmds": {
+        "transceiver qsfp default-mode 4x10G": null,
+        "interface Ethernet11": {
+          "comments": [],
+          "cmds": {}
+        },
+        "interface Ethernet10": {
+          "comments": [],
+          "cmds": {}
+        },
+        "interface Ethernet12": {
+          "comments": [],
+          "cmds": {}
+        },
+        "alias spd show port-channel %1 detail all": null,
+        "alias conint sh interface | i connected": null,
+        "vlan 4094": {
+          "comments": [],
+          "cmds": {
+            "trunk group MLAGPEER": null
+          }
+        },
+        "aaa authentication login default group atds local": null,
+        "aaa group server radius atds": {
+          "comments": [],
+          "cmds": {
+            "server 192.168.0.1": null
+          }
+        },
+        "username admin privilege 15 role network-admin secret 5 $1$5O85YVVn$HrXcfOivJEnISTMb6xrJc.": null,
+        "alias mlag-reload bash /mnt/flash/shut_intfs && sudo shutdown now -r": null,
+        "spanning-tree mode mstp": null,
+        "alias intdesc": {
+          "comments": [
+            "Usage: intdesc interface-name description"
+          ],
+          "cmds": {
+            "40 exit": null,
+            "20 int %1": null,
+            "10 config": null,
+            "30 desc %2": null
+          }
+        },
+        "mlag configuration": {
+          "comments": [],
+          "cmds": {
+            "peer-address 192.168.255.2": null,
+            "domain-id MLAG": null,
+            "local-interface Vlan4094": null,
+            "peer-link Port-Channel10": null
+          }
+        },
+        "interface Vlan4094": {
+          "comments": [],
+          "cmds": {
+            "ip address 192.168.255.1/30": null,
+            "description MLAG PEER LINK": null
+          }
+        },
+        "aaa authorization exec default group atds local": null,
+        "interface Ethernet1": {
+          "comments": [],
+          "cmds": {
+            "channel-group 10 mode active": null,
+            "switchport mode trunk": null,
+            "description MLAG PEER LINK - LEAF": null
+          }
+        },
+        "interface Ethernet15": {
+          "comments": [],
+          "cmds": {}
+        },
+        "interface Ethernet3": {
+          "comments": [],
+          "cmds": {}
+        },
+        "interface Ethernet2": {
+          "comments": [],
+          "cmds": {
+            "channel-group 10 mode active": null,
+            "switchport mode trunk": null,
+            "description MLAG PEER LINK -- LEAF": null
+          }
+        },
+        "interface Ethernet5": {
+          "comments": [],
+          "cmds": {}
+        },
+        "username arista ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC1hT2NvTQM3OaCiZbHtCYTVmopVxf0abiX833EhRv2efNeoeWP6xtLm8QsGwcBSjMyEMB9Dj8hQHALLhH1xyfj8VaGWnGv4mu1dY9Op40rNDcwZEtUwcorh0b3dYpWyl3ziDToeM8TcUxqR0a+C/DWtgEV2Vtq/mbtsAUxXtHGnFEeTLouAyRxj3JBUoL61Dux6mWH1Ib0T8rCcM4wfCiMdia1vog3nZUxtkTrcigC7Gzw+H/rOSqUICVoeEJ3Q2rKONS8XIKwkafQBB5MgvQJnXliPUyMM3P10UGfQdc2ICu642QeiUt5fmcmybn40I23Q3sEk0ig/t5rLNZ4xuDT7gSZj+tBTiyDpWjGKYuvUAmwUA8P8sn02tlYVLVNqkxoGS4U4cJIcc+z6HqftJwJGuQX4vRy/XkmCL8ggXg+SIjC+u7iaJhSVncWMs5aoaog2nhfBNWPSJ18//CAgR9DAvxeeu6rsZjbjkQg5TTIII8wTe8YYmoyTEwB2IXJi88= coder@89c152b4dd9f": null,
+        "alias srnz show interface counter rate | nz": null,
+        "ntp server 192.168.0.1 iburst source Management0": null,
+        "alias senz show interface counter error | nz": null,
+        "interface Ethernet4": {
+          "comments": [],
+          "cmds": {}
+        },
+        "alias shmc show int | awk '/^[A-Z]/ { intf = $1 } /, address is/ { print intf, $6 }'": null,
+        "ip route 0.0.0.0/0 192.168.0.1": null,
+        "service routing protocols model multi-agent": null,
+        "interface Loopback1": {
+          "comments": [],
+          "cmds": {
+            "ip address 192.168.102.21/32": null,
+            "ip ospf area 0.0.0.0": null
+          }
+        },
+        "interface Loopback0": {
+          "comments": [],
+          "cmds": {
+            "ip address 192.168.101.21/32": null
+          }
+        },
+        "no aaa root": null,
+        "alias snz show interface counter | nz": null,
+        "username arista privilege 15 role network-admin secret 5 $1$4VjIjfd1$------------------": null,
+        "daemon TerminAttr": {
+          "comments": [],
+          "cmds": {
+            "exec /usr/bin/TerminAttr -ingestgrpcurl=192.168.0.X:9910 -taillogs -ingestauth=key,atd-lab -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent": null,
+            "no shutdown": null
+          }
+        },
+        "username automator ssh-key ssh-rsa AAAAB3Nz--- arista@---": null,
+        "no spanning-tree vlan-id 4094": null,
+        "alias sqnz show interface counter queue | nz": null,
+        "interface Port-Channel10": {
+          "comments": [],
+          "cmds": {
+            "description MLAG PEER LINK - LEAF": null,
+            "switchport trunk group MLAGPEER": null,
+            "switchport mode trunk": null
+          }
+        },
+        "username Script secret sha512 $6$----------------------------------": null,
+        "ip routing": null,
+        "radius-server host 192.168.0.1 key 7 0207165218120E": null,
+        "interface Management0": {
+          "comments": [],
+          "cmds": {
+            "ip address 192.168.0.25/24": null
+          }
+        },
+        "management api http-commands": {
+          "comments": [],
+          "cmds": {
+            "no shutdown": null
+          }
+        },
+        "hostname borderleaf1-DC1": null,
+        "ip radius source-interface Management0": null,
+        "aaa authorization commands all default local": null,
+        "dns domain arista.lab": null,
+        "username automator nopassword": null
+      }
+    }
+  ]
+}
