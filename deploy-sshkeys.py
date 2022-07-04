@@ -1,5 +1,8 @@
 import pyeapi
 
+with open('/home/coder/.ssh/id_rsa.pub', 'r') as sshkey:
+    SSH_KEY = sshkey.readline()
+
 with open('inventory', 'r') as inv_file:
     host = inv_file.readline().strip('\n')
     while host:
@@ -8,12 +11,8 @@ with open('inventory', 'r') as inv_file:
         print("*"*20)
         conn = pyeapi.connect_to(host)
         res_key = conn.api('users').set_sshkey(name='arista',
-        value='ssh-rsa AAAAPLACEYOUROWNKEYHERE\
-HELLLLLLOOOOOTHERECHANGEWITHYOURKEYHEREEEEEEEEEE\
-HELLLLLLOOOOOTHERECHANGEWITHYOURKEYHEREEEEEEEEEE\
-HELLLLLLOOOOOTHERECHANGEWITHYOURKEYHEREEEEEEEEEE\
-HELLLLLLOOOOOTHERECHANGEWITHYOURKEYHEREEEEEEEEEE user@mydom',
+        value=SSH_KEY,
         default=False, disable=False)
-        print(conn.api('users').get('arista'))  # Take a look at the result
-        # print(res_key)                        # Check if you made a change True > YES, False > NO
-        host = inv_file.readline().strip('\n')  # Pass to the next line, can also use enumerate for fun !
+        print(conn.api('users').get('arista'))
+        print(res_key)
+        host = inv_file.readline().strip('\n')
