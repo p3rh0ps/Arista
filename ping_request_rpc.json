@@ -1,0 +1,18 @@
+{
+  "jsonrpc": "2.0",
+  "method": "runCmds",
+  "params": {
+    "version": 1,
+    "cmds": [
+      "ping 192.168.0.5"
+    ],
+    "format": "json",
+    "timestamps": true,
+    "autoComplete": false,
+    "expandAliases": true,
+    "stopOnError": true,
+    "streaming": false,
+    "includeErrorDetail": false
+  },
+  "id": "EapiExplorer-1"
+}
