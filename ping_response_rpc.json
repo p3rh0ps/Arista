@@ -1,0 +1,15 @@
+{
+  "jsonrpc": "2.0",
+  "id": "EapiExplorer-1",
+  "result": [
+    {
+      "messages": [
+        "PING 192.168.0.5 (192.168.0.5) 72(100) bytes of data.\n80 bytes from 192.168.0.5: icmp_seq=1 ttl=64 time=0.408 ms\n80 bytes from 192.168.0.5: icmp_seq=2 ttl=64 time=0.278 ms\n80 bytes from 192.168.0.5: icmp_seq=3 ttl=64 time=0.165 ms\n80 bytes from 192.168.0.5: icmp_seq=4 ttl=64 time=0.235 ms\n80 bytes from 192.168.0.5: icmp_seq=5 ttl=64 time=0.131 ms\n\n--- 192.168.0.5 ping statistics ---\n5 packets transmitted, 5 received, 0% packet loss, time 1ms\nrtt min/avg/max/mdev = 0.131/0.243/0.408/0.098 ms, ipg/ewma 0.353/0.320 ms\n"
+      ],
+      "_meta": {
+        "execDuration": 0.30280399322509766,
+        "execStartTime": 1656920930.083185
+      }
+    }
+  ]
+}
