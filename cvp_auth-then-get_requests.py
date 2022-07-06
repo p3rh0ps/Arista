@@ -16,6 +16,7 @@ loginURL = "/web/login/authenticate.do"
 authenticateData = json.dumps({'userId' : CVP_USER, 'password' : CVP_PASS})
 
 auth_response = requests.post(url+loginURL,data=authenticateData,headers=headers,verify=False)
+assert auth_response.ok
 
 cookies = auth_response.cookies
 output = auth_response.json()
