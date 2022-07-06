@@ -47,11 +47,12 @@ try:
             host = inv_file.readline().strip('\n')
 except FileNotFoundError as filenotf_err:
     print("File not Found: {}".format(filenotf_err.args))
+    sys.exit(-1)
 except AssertionError as assert_err:
     print("Assertion Error: {}".format(assert_err.args))
     sys.exit(-1)
 except KeyboardInterrupt as keyb_err:
-    print("User Interrupt: {}".format(keyb_err.args))
+    print("User Keyboard Interrupt")
     sys.exit(0)
 except:
     print("Unknown but catched error")
