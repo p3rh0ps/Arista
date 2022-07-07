@@ -11,8 +11,12 @@ def get_ssh_infos(ssh_key: str) -> str:
     if ssh_key_type == "ssh-rsa" and ssh_key_misc.startswith(KEY_USER+"@") and re.match(KEY_USER+"@"+KEY_HOST, ssh_key_misc):
         return ssh_key_type + " " + ssh_key_misc
     else:
-        print("You don't use a key generated with the local user and local host of this system, or it is the wrong key\
-            please correct by creating a new one if necessary via 'ssh-keygen -t rsa' linux cli")
+        print("You don't use a key generated with the local user and local host of this system,\
+             or it is the wrong key please correct via specific methods:\
+               - by creating a new one if necessary via 'ssh-keygen -t rsa' linux cli\
+               - by modifying ssh_config file\
+               - Any other appropriate methods...
+              ")
         sys.exit(-1)
 
 def ssh_key_set(operator: bool) -> str:
