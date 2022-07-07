@@ -7,8 +7,9 @@ from tabulate import tabulate
 
 def get_ssh_infos(ssh_key: str) -> str:
     ssh_key_type = ssh_key.split(" ")[0]
+    ssh_key_data = ssh_key.split(" ")[1]
     ssh_key_misc = ssh_key.split(" ")[2]
-    if ssh_key_type == "ssh-rsa" and ssh_key_misc.startswith(KEY_USER+"@") and re.match(KEY_USER+"@"+KEY_HOST, ssh_key_misc):
+    if ssh_key_type == "ssh-rsa" and re.match(KEY_USER+"@"+KEY_HOST, ssh_key_misc):
         return ssh_key_type + " " + ssh_key_misc
     else:
         print("You don't use a key generated with the local user and local host of this system,\
