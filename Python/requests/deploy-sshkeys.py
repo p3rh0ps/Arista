@@ -15,8 +15,8 @@ def get_ssh_infos(ssh_key: str) -> str:
              or it is the wrong key please correct via specific methods:\
                - by creating a new one if necessary via 'ssh-keygen -t rsa' linux cli\
                - by modifying ssh_config file\
-               - Any other appropriate methods...
-              ")
+               - Any other appropriate methods...\
+            ")
         sys.exit(-1)
 
 def ssh_key_set(operator: bool) -> str:
@@ -58,6 +58,8 @@ except AssertionError as assert_err:
 except KeyboardInterrupt as keyb_err:
     print("User Keyboard Interrupt")
     sys.exit(0)
+except AttributeError as attr_err:
+    print("Please configure eapi profile and place it in the correct directory ~/.eapi.conf")
 except:
     print("Unknown but catched error")
 
