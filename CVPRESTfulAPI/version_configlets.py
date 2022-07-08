@@ -14,7 +14,7 @@ def get_configlets(mac: str) -> list:
         configlets.append(result['name'])
     return configlets
 
-client = CvpClient()
+client = CvpClient(syslog=True, filename='/tmp/cvprac_log')
 
 client.connect([cvp1], cvp_user, cvp_password)
 
