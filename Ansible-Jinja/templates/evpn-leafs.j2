@@ -1,5 +1,5 @@
 {% set ASN = underlay[inventory_hostname]['BGP']['ASN'] %}
-{% set REMOTE_ASN = {{ underlay['global'][DC]['spine_ASN'] %}
+{% set REMOTE_ASN = underlay['global'][DC]['spine_ASN'] %}
 {% set DC_LIST = inventory_hostname.split('-') %}
 {% set DC = DC_LIST[1] %}
 {% set RID = underlay[inventory_hostname]['interfaces']['loopback0']['ipv4'] %}
@@ -48,7 +48,7 @@ router bgp {{ ASN }}
    neighbor EVPN send-community 
    neighbor EVPN maximum-routes 0
 {% for underlay_peers in underlay['global'][DC]['spine_peers'] %}
-    neighbor {{underlay_peers}} peer group EVPN
+    neighbor {{ underlay_peers }} peer group EVPN
 {% endfor %}
  
     address-family evpn

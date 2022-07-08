@@ -1,5 +1,5 @@
 {% set ASN = underlay[inventory_hostname]['BGP']['ASN'] %}
-{% set REMOTE_ASN = {{ underlay['global'][DC]['spine_ASN'] %}
+{% set REMOTE_ASN = underlay['global'][DC]['spine_ASN'] %}
 {% set DC_LIST = inventory_hostname.split('-') %}
 {% set DC = DC_LIST[1] %}
 {% set P2P_RANGE = underlay['global'][DC]['p2p'] %}
