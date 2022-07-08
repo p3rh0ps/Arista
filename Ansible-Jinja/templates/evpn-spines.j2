@@ -1,0 +1,46 @@
+{% set ASN = underlay[inventory_hostname]['BGP']['ASN'] %}
+{% set REMOTE_ASN = {{ underlay['global'][DC]['spine_ASN'] %}
+{% set DC_LIST = inventory_hostname.split('-') %}
+{% set DC = DC_LIST[1] %}
+{% set P2P_RANGE = underlay['global'][DC]['p2p'] %}
+{% set RID = underlay[inventory_hostname]['interfaces']['loopback0']['ipv4'] %}
+{% set EVPN_LOOPBACK = underlay['global'][DC]['lo0'] %}
+
+service routing protocols model multi-agent
+
+ip prefix-list LOOPBACK
+  seq 10 permit 192.168.101.0/24 eq 32
+  seq 11 permit 192.168.102.0/24 eq 32
+  seq 30 permit 192.168.201.0/24 eq 32
+  seq 40 permit 192.168.202.0/24 eq 32
+
+route-map LOOPBACK permit 10
+  match ip address prefix-list LOOPBACK
+
+peer-filter LEAF-AS-RANGE
+  10 match as-range 65000-65535 result accept
+
+router bgp {{ ASN }}
+  router-id {{ RID }}
+  no bgp default ipv4-unicast
+  maximum-paths 3
+  distance bgp 20 200 200
+
+  neighbor LEAF_Underlay peer group
+  bgp listen range {{ P2P_RANGE }} peer-group LEAF_Underlay peer-filter LEAF-AS-RANGE
+  neighbor LEAF_Underlay send-community
+  neighbor LEAF_Underlay maximum-routes 12000
+
+  neighbor EVPN peer group
+  bgp listen range {{ EVPN_LOOPBACK }} peer-group EVPN peer-filter LEAF-AS-RANGE
+  neighbor EVPN ebgp-multihop 3
+  neighbor EVPN send-community
+  neighbor EVPN maximum-routes 0
+ 
+  address-family evpn
+   neighbor EVPN activate
+
+  address-family ipv4
+   neighbor LEAF_Underlay activate
+   redistribute connected route-map LOOPBACK
+     

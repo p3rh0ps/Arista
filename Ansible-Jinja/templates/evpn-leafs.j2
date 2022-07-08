@@ -1,0 +1,60 @@
+{% set ASN = underlay[inventory_hostname]['BGP']['ASN'] %}
+{% set REMOTE_ASN = {{ underlay['global'][DC]['spine_ASN'] %}
+{% set DC_LIST = inventory_hostname.split('-') %}
+{% set DC = DC_LIST[1] %}
+{% set RID = underlay[inventory_hostname]['interfaces']['loopback0']['ipv4'] %}
+
+service routing protocols model multi-agent
+
+ip prefix-list LOOPBACK
+    seq 10 permit 192.168.101.0/24 eq 32
+    seq 20 permit 192.168.102.0/24 eq 32
+    seq 30 permit 192.168.201.0/24 eq 32
+    seq 40 permit 192.168.202.0/24 eq 32
+    seq 50 permit 192.168.253.0/24 eq 32
+
+route-map LOOPBACK permit 10
+   match ip address prefix-list LOOPBACK
+
+router bgp {{ ASN }}
+   router-id {{ RID }}
+   no bgp default ipv4-unicast
+   maximum-paths 3
+   distance bgp 20 200 200
+
+   neighbor Underlay peer group  
+   neighbor Underlay remote-as {{ REMOTE_ASN }}
+   neighbor Underlay send-community 
+   neighbor Underlay maximum-routes 12000
+{% for UNDERLAY_PEERS in underlay[inventory_hostname]['BGP']['spine-peers'] %}
+   neighbor {{ UNDERLAY_PEERS }} peer group Underlay
+{% endfor %}
+
+   neighbor LEAF_Peer peer group
+   neighbor LEAF_Peer remote-as {{ ASN }}
+   neighbor LEAF_Peer next-hop-self
+   neighbor LEAF_Peer maximum-routes 12000
+{% if underlay[inventory_hostname]['MLAG'] == 'Odd' %}
+   neighbor 192.168.255.2 peer group LEAF_Peer
+{% endif %}
+{% if underlay[inventory_hostname]['MLAG'] == 'Even' %}
+   neighbor 192.168.255.1 peer group LEAF_Peer
+{% endif %}
+
+   neighbor EVPN peer group
+   neighbor EVPN remote-as {{ REMOTE_ASN }}
+   neighbor EVPN update-source Loopback0
+   neighbor EVPN ebgp-multihop 3
+   neighbor EVPN send-community 
+   neighbor EVPN maximum-routes 0
+{% for underlay_peers in underlay['global'][DC]['spine_peers'] %}
+    neighbor {{underlay_peers}} peer group EVPN
+{% endfor %}
+ 
+    address-family evpn
+      neighbor EVPN activate
+   
+    address-family ipv4
+      neighbor Underlay activate
+      neighbor LEAF_Peer activate
+      redistribute connected route-map LOOPBACK
