@@ -1,24 +1,26 @@
 import pyeapi
 
+INTF_DESC = 'Dummy'
+
 node = pyeapi.connect_to('leaf1-dc1')
 
-node.enable('show hostname')
+print(node.enable('show hostname'))
 
-node.enable({'cmd': 'show cvx', 'revision': 2})
+print(node.enable({'cmd': 'show cvx', 'revision': 2}))
 
 node.config('hostname leaf1-dc1-tuned')
 
-node.config(['interface Ethernet6', 'description foobar'])
+node.config(['interface Ethernet6', f'description {INTF_DESC}'])
 
 try:
 
     result_config = node.api("interfaces").get("Ethernet6")["description"]
-    assert result_config == "foobar"
+    assert result_config == INTF_DESC
     print(node.api("interfaces").get("Ethernet6")["description"])
 
 except AssertionError as err:
 
-    print("Interface description  do not match expected result: ", err.args)
+    print("Interface description do not match expected result: ", err.args)
 
 except:
 
