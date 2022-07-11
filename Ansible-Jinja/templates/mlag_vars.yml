@@ -1,0 +1,11 @@
+---
+global:
+  mlag_vlan: 4094
+  mlag_domain_id: mlpeer
+  po_id: 10
+odd:
+  local_addr: 192.168.255.1/24
+  peer_addr: 192.168.255.2
+even:
+  local_addr: 192.168.255.2/24
+  peer_addr: 192.168.255.1

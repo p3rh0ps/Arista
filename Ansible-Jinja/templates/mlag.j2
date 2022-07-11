@@ -1,0 +1,35 @@
+{% if inventory_hostname.split('-')[0].startswith("leaf") %}
+
+{% if inventory_hostname.split('-')[0][-1] | int %2 == 0 %}
+{% set mlag_side = 'even' %}
+{% endif %}
+
+{% if inventory_hostname.split('-')[0][-1] | int % 2 == 1 %}
+{% set mlag_side = 'odd' %}
+{% endif %}
+
+{% endif %}
+
+interface ethernet 1-2
+ channel-group {{ mlag['global']['po_id'] }} mode active
+
+interface port-channel {{ mlag['global']['po_id'] }}
+ switchport mode trunk
+
+vlan {{ mlag['global']['mlag_vlan'] }}
+ trunk group {{ mlag['global']['mlag_domain_id'] }}
+
+no spanning-tree vlan-id {{ mlag['global']['mlag_vlan'] }}
+
+interface port-channel {{ mlag['global']['po_id'] }}
+ switchport trunk group {{ mlag['global']['mlag_domain_id'] }}
+
+interface vlan {{ mlag['global']['mlag_vlan'] }}
+ ip address {{ mlag[mlag_side]['local_addr'] }}
+ no autostate
+
+mlag configuration
+ local-interface vlan {{ mlag['global']['mlag_vlan'] }}
+ peer-address {{ mlag[mlag_side]['peer_addr'] }}
+ peer-link port-channel {{ mlag['global']['po_id'] }}
+ domain-id {{ mlag['global']['mlag_domain_id'] }}
