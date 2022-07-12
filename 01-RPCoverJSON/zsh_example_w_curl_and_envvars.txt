@@ -1,0 +1,31 @@
+export CMD='show version'
+export IP_SWITCH='192.168.0.25'
+export BASIC_AUTH_USER='******'
+export BASIC_AUTH_PASSWORD='*********'
+export BASIC_AUTH=$(echo -ne "$BASIC_AUTH_USER:$BASIC_AUTH_PASSWORD" | base64)
+
+
+curl -k  -X POST https://$IP_SWITCH/command-api \
+-H "Authorization: Basic $BASIC_AUTH"  \
+-H 'Content-Type: application/json' \
+-d '{
+"jsonrpc": "2.0",
+"method": "runCmds",
+"params": {
+"version": 1,
+"cmds": [
+{
+"cmd": "$CMD",
+"revision": 2
+}
+],
+"format": "json",
+"timestamps": false,
+"autoComplete": false,
+"expandAliases": false,
+"stopOnError": true,
+"streaming": false,
+"includeErrorDetail": false
+},
+"id": "EapiExplorer-1"
+}’
