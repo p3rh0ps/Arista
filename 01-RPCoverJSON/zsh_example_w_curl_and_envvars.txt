@@ -4,28 +4,34 @@ export BASIC_AUTH_USER='******'
 export BASIC_AUTH_PASSWORD='*********'
 export BASIC_AUTH=$(echo -ne "$BASIC_AUTH_USER:$BASIC_AUTH_PASSWORD" | base64)
 
+#
+# Create a file to launch the request via a uniq cli call
+# -X POST is useless and its default behavior in this case
+# You can adapt this script to launch multiple command at the same time
+#
 
-curl -k  -X POST https://$IP_SWITCH/command-api \
--H "Authorization: Basic $BASIC_AUTH"  \
--H 'Content-Type: application/json' \
--d '{
+gen_post_data()
+{
+        cat <<EOF
+{
 "jsonrpc": "2.0",
 "method": "runCmds",
 "params": {
-"version": 1,
-"cmds": [
-{
-"cmd": "$CMD",
-"revision": 2
-}
-],
-"format": "json",
-"timestamps": false,
-"autoComplete": false,
-"expandAliases": false,
-"stopOnError": true,
-"streaming": false,
-"includeErrorDetail": false
+  "format": "json",
+  "timestamps": false,
+  "autoComplete": false,
+  "expandAliases": false,
+  "cmds": [
+  "$CMD"
+  ],
+  "version": 1
 },
 "id": "EapiExplorer-1"
-}’
+}
+EOF
+}
+
+curl -k -X POST https://$IP_SWITCH/command-api \
+-H "Authorization: Basic $BASIC_AUTH"  \
+-H 'Content-Type: application/json' \
+-d "$(gen_post_data)"
